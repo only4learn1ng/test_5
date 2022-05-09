@@ -1,5 +1,14 @@
 echo "Deployment Started"
 
+
+sudo echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
+sudo echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
+sudo sysctl -p
+echo "BBR Enabled"
+check_bbr=`sudo lsmod | grep bbr`
+echo $check_bbr
+
+
 arch=$(uname -m)
 if [[ $arch == "x86_64" ]]; then
 	nknsoftwareURL="https://software.hidandelion.com/nkn/modified/nknd-amd64"
@@ -29,18 +38,14 @@ sudo cp ./nkn.service /etc/systemd/system/
 sudo systemctl start nkn
 echo "NKN Software Started"
 
-sudo echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
-sudo echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
-sudo sysctl -p
-echo "BBR Enabled"
-check_bbr=`sudo lsmod | grep bbr`
-echo $check_bbr
 
 sudo rm -rf /var/lib/cloud/instances
+
 
 sudo echo > /var/log/wtmp
 sudo echo > /var/log/btmp
 history -c
+
 
 echo "Completed"
 
