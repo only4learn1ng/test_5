@@ -39,7 +39,7 @@ sudo systemctl start nkn
 echo "NKN Software Started"
 
 
-sudo rm -rf /var/lib/cloud/instances
+
 
 
 sudo echo > /var/log/wtmp
